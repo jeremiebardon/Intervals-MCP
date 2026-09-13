@@ -1,5 +1,6 @@
 import { Activity, ActivityDetail } from '../../domain/activity';
-import { ActivityApiResponse, ActivityDetailApiResponse } from './schemas';
+import { Wellness } from '../../domain/wellness';
+import { ActivityApiResponse, ActivityDetailApiResponse, WellnessApiResponse } from './schemas';
 
 export function toActivity(api: ActivityApiResponse): Activity {
   return {
@@ -32,5 +33,16 @@ export function toActivityDetail(api: ActivityDetailApiResponse): ActivityDetail
       zone4Seconds: api.hr_zone_distribution.z4_secs,
       zone5Seconds: api.hr_zone_distribution.z5_secs,
     },
+  };
+}
+
+export function toWellness(api: WellnessApiResponse): Wellness {
+  return {
+    date: api.id,
+    hrv: api.hrv,
+    restingHeartRate: api.restingHR,
+    sleepHours: api.sleepSecs !== null ? api.sleepSecs / 3600 : null,
+    weightKg: api.weight,
+    fatigue: api.fatigue,
   };
 }

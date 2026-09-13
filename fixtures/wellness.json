@@ -1,0 +1,18 @@
+[
+  {
+    "id": "2026-09-01",
+    "hrv": 62,
+    "restingHR": 48,
+    "sleepSecs": 27000,
+    "weight": 71.2,
+    "fatigue": 2
+  },
+  {
+    "id": "2026-09-02",
+    "hrv": 58,
+    "restingHR": 50,
+    "sleepSecs": null,
+    "weight": null,
+    "fatigue": 3
+  }
+]

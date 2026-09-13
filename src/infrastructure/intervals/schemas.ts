@@ -36,3 +36,15 @@ export const activityDetailSchema = activitySchema.extend({
   hr_zone_distribution: hrZoneDistributionSchema,
 });
 export type ActivityDetailApiResponse = z.infer<typeof activityDetailSchema>;
+
+export const wellnessSchema = z.object({
+  id: z.string(),
+  hrv: z.number().nullable(),
+  restingHR: z.number().nullable(),
+  sleepSecs: z.number().nullable(),
+  weight: z.number().nullable(),
+  fatigue: z.number().nullable(),
+});
+export type WellnessApiResponse = z.infer<typeof wellnessSchema>;
+
+export const wellnessResponseSchema = z.array(wellnessSchema);
