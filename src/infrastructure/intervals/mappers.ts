@@ -1,6 +1,7 @@
 import { Activity, ActivityDetail } from '../../domain/activity';
 import { Wellness } from '../../domain/wellness';
-import { ActivityApiResponse, ActivityDetailApiResponse, WellnessApiResponse } from './schemas';
+import { PlannedWorkout } from '../../domain/planned-workout';
+import { ActivityApiResponse, ActivityDetailApiResponse, WellnessApiResponse, PlannedWorkoutApiResponse } from './schemas';
 
 export function toActivity(api: ActivityApiResponse): Activity {
   return {
@@ -44,5 +45,17 @@ export function toWellness(api: WellnessApiResponse): Wellness {
     sleepHours: api.sleepSecs !== null ? api.sleepSecs / 3600 : null,
     weightKg: api.weight,
     fatigue: api.fatigue,
+  };
+}
+
+export function toPlannedWorkout(api: PlannedWorkoutApiResponse): PlannedWorkout {
+  return {
+    id: api.id,
+    date: api.start_date_local,
+    name: api.name,
+    sport: api.type,
+    description: api.description,
+    plannedDurationSeconds: api.moving_time,
+    plannedDistanceMeters: api.distance,
   };
 }

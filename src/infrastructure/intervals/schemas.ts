@@ -48,3 +48,16 @@ export const wellnessSchema = z.object({
 export type WellnessApiResponse = z.infer<typeof wellnessSchema>;
 
 export const wellnessResponseSchema = z.array(wellnessSchema);
+
+export const plannedWorkoutSchema = z.object({
+  id: z.string(),
+  start_date_local: z.string(),
+  name: z.string(),
+  type: z.string(),
+  description: z.string().nullable(),
+  moving_time: z.number().nullable(),
+  distance: z.number().nullable(),
+});
+export type PlannedWorkoutApiResponse = z.infer<typeof plannedWorkoutSchema>;
+
+export const plannedWorkoutsResponseSchema = z.array(plannedWorkoutSchema);

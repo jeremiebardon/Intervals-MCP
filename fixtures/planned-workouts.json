@@ -1,0 +1,11 @@
+[
+  {
+    "id": "e987",
+    "start_date_local": "2026-09-08T06:00:00",
+    "name": "Tempo run",
+    "type": "Run",
+    "description": "20min warmup, 30min @ threshold, 10min cooldown",
+    "moving_time": 3600,
+    "distance": 9000
+  }
+]
