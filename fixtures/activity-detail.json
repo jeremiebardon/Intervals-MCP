@@ -1,0 +1,34 @@
+{
+  "id": "i12345",
+  "start_date_local": "2026-09-01T07:15:00",
+  "name": "Morning Ride",
+  "type": "Ride",
+  "distance": 42000,
+  "moving_time": 5400,
+  "icu_average_hr": 142,
+  "icu_pace": 128.5,
+  "icu_training_load": 65,
+  "intervals": [
+    {
+      "label": "Warmup",
+      "duration": 600,
+      "distance": 3000,
+      "average_heartrate": 118,
+      "average_watts": 150
+    },
+    {
+      "label": "Main set",
+      "duration": 1800,
+      "distance": 14000,
+      "average_heartrate": 158,
+      "average_watts": 220
+    }
+  ],
+  "hr_zone_distribution": {
+    "z1_secs": 600,
+    "z2_secs": 900,
+    "z3_secs": 1800,
+    "z4_secs": 1500,
+    "z5_secs": 600
+  }
+}
