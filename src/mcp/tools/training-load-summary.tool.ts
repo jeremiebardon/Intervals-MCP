@@ -9,13 +9,19 @@ import {
 } from '../../application/use-cases/get-training-load-summary.use-case';
 
 const inputSchema = z.object({
-  weeks: z.number().int().positive().max(26).describe('Number of weeks to look back from today'),
+  weeks: z
+    .number()
+    .int()
+    .positive()
+    .max(26)
+    .describe('Number of weeks to look back from today'),
 });
 
 @Injectable()
-export class TrainingLoadSummaryTool
-  implements McpTool<GetTrainingLoadSummaryInput, GetTrainingLoadSummaryOutput>
-{
+export class TrainingLoadSummaryTool implements McpTool<
+  GetTrainingLoadSummaryInput,
+  GetTrainingLoadSummaryOutput
+> {
   name = 'get_training_load_summary';
   description =
     'CTL/ATL/TSB (fitness/fatigue/form) daily rollup plus weekly volume, computed server-side over N weeks. ' +
@@ -24,5 +30,7 @@ export class TrainingLoadSummaryTool
 
   constructor(private readonly useCase: GetTrainingLoadSummaryUseCase) {}
 
-  execute = withToolSpan(this.name, (input: GetTrainingLoadSummaryInput) => this.useCase.execute(input));
+  execute = withToolSpan(this.name, (input: GetTrainingLoadSummaryInput) =>
+    this.useCase.execute(input),
+  );
 }

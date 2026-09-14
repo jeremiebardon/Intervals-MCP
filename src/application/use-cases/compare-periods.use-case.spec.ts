@@ -22,8 +22,22 @@ describe('ComparePeriodsUseCase', () => {
     const port = {
       getActivities: jest
         .fn()
-        .mockResolvedValueOnce([makeActivity({ distanceMeters: 10000, durationSeconds: 1800, trainingLoad: 40, avgHeartRate: 140 })])
-        .mockResolvedValueOnce([makeActivity({ distanceMeters: 30000, durationSeconds: 3600, trainingLoad: 90, avgHeartRate: 150 })]),
+        .mockResolvedValueOnce([
+          makeActivity({
+            distanceMeters: 10000,
+            durationSeconds: 1800,
+            trainingLoad: 40,
+            avgHeartRate: 140,
+          }),
+        ])
+        .mockResolvedValueOnce([
+          makeActivity({
+            distanceMeters: 30000,
+            durationSeconds: 3600,
+            trainingLoad: 90,
+            avgHeartRate: 150,
+          }),
+        ]),
     } as unknown as IntervalsPort;
     const useCase = new ComparePeriodsUseCase(port);
 

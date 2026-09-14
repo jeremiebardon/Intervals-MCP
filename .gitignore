@@ -3,3 +3,5 @@ dist/
 .env
 .worktrees/
 .superpowers/
+coverage/
+fixtures/recorded/

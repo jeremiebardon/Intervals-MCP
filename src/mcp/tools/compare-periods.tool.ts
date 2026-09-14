@@ -12,7 +12,10 @@ const periodSchema = z.object({ from: z.string(), to: z.string() });
 const inputSchema = z.object({ periodA: periodSchema, periodB: periodSchema });
 
 @Injectable()
-export class ComparePeriodsTool implements McpTool<ComparePeriodsInput, ComparePeriodsOutput> {
+export class ComparePeriodsTool implements McpTool<
+  ComparePeriodsInput,
+  ComparePeriodsOutput
+> {
   name = 'compare_periods';
   description =
     'Deltas (periodB minus periodA) in volume, load, and avg HR between two date ranges. ' +
@@ -21,5 +24,7 @@ export class ComparePeriodsTool implements McpTool<ComparePeriodsInput, CompareP
 
   constructor(private readonly useCase: ComparePeriodsUseCase) {}
 
-  execute = withToolSpan(this.name, (input: ComparePeriodsInput) => this.useCase.execute(input));
+  execute = withToolSpan(this.name, (input: ComparePeriodsInput) =>
+    this.useCase.execute(input),
+  );
 }

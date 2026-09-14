@@ -5,7 +5,9 @@ import { toWellness } from '../../src/infrastructure/intervals/mappers';
 
 describe('intervals.icu wellness contract', () => {
   it('parses and maps the wellness fixture', () => {
-    const raw = JSON.parse(readFileSync(join(__dirname, '../../fixtures/wellness.json'), 'utf-8'));
+    const raw: unknown = JSON.parse(
+      readFileSync(join(__dirname, '../../fixtures/wellness.json'), 'utf-8'),
+    );
     const parsed = wellnessResponseSchema.parse(raw);
     const days = parsed.map(toWellness);
     expect(days).toHaveLength(2);

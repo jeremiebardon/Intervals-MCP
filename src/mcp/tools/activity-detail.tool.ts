@@ -2,15 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
 import { McpTool } from '../tool';
 import { withToolSpan } from '../with-tool-span';
-import { GetActivityDetailUseCase, GetActivityDetailInput } from '../../application/use-cases/get-activity-detail.use-case';
-import { ActivityDetail } from '../../domain/activity';
+import {
+  GetActivityDetailUseCase,
+  GetActivityDetailInput,
+  GetActivityDetailOutput,
+} from '../../application/use-cases/get-activity-detail.use-case';
 
 const inputSchema = z.object({
   activityId: z.string(),
 });
 
 @Injectable()
-export class ActivityDetailTool implements McpTool<GetActivityDetailInput, ActivityDetail> {
+export class ActivityDetailTool implements McpTool<
+  GetActivityDetailInput,
+  GetActivityDetailOutput
+> {
   name = 'get_activity_detail';
   description =
     'Full detail for one activity: intervals/laps and HR zone distribution. ' +
@@ -19,5 +25,7 @@ export class ActivityDetailTool implements McpTool<GetActivityDetailInput, Activ
 
   constructor(private readonly useCase: GetActivityDetailUseCase) {}
 
-  execute = withToolSpan(this.name, (input: GetActivityDetailInput) => this.useCase.execute(input));
+  execute = withToolSpan(this.name, (input: GetActivityDetailInput) =>
+    this.useCase.execute(input),
+  );
 }

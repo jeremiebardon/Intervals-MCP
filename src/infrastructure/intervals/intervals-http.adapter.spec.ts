@@ -6,7 +6,13 @@ import { ApiKeyCredentialProvider } from '../auth/api-key.credential-provider';
 import { DateRange } from '../../domain/date-range';
 
 function axiosResponse<T>(data: T): AxiosResponse<T> {
-  return { data, status: 200, statusText: 'OK', headers: {}, config: {} as never };
+  return {
+    data,
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {} as never,
+  };
 }
 
 describe('IntervalsHttpAdapter', () => {
@@ -45,7 +51,11 @@ describe('IntervalsHttpAdapter', () => {
       'https://intervals.icu/api/v1/athlete/0/activities',
       expect.objectContaining({
         auth: { username: 'API_KEY', password: 'secret123' },
-        params: expect.objectContaining({ oldest: '2026-09-01', newest: '2026-09-07' }),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- expect.objectContaining's jest type is `any`
+        params: expect.objectContaining({
+          oldest: '2026-09-01',
+          newest: '2026-09-07',
+        }),
       }),
     );
   });

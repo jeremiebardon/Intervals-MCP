@@ -15,6 +15,7 @@ export interface GetRecentActivitiesOutput {
   truncated: boolean;
   shown: number;
   total: number;
+  hint: string | null;
 }
 
 const DEFAULT_LIMIT = 20;
@@ -23,16 +24,20 @@ const DEFAULT_LIMIT = 20;
 export class GetRecentActivitiesUseCase {
   constructor(private readonly intervals: IntervalsPort) {}
 
-  async execute(input: GetRecentActivitiesInput): Promise<GetRecentActivitiesOutput> {
+  async execute(
+    input: GetRecentActivitiesInput,
+  ): Promise<GetRecentActivitiesOutput> {
     const range = DateRange.of(new Date(input.from), new Date(input.to));
     const all = await this.intervals.getActivities(range, input.sport);
     const limit = input.limit ?? DEFAULT_LIMIT;
     const activities = all.slice(0, limit);
+    const truncated = all.length > activities.length;
     return {
       activities,
-      truncated: all.length > activities.length,
+      truncated,
       shown: activities.length,
       total: all.length,
+      hint: truncated ? 'narrow the date range' : null,
     };
   }
 }

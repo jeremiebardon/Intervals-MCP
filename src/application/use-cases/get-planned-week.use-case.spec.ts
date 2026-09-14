@@ -15,23 +15,27 @@ describe('GetPlannedWeekUseCase', () => {
   };
 
   it('uses the given weekStart when provided', async () => {
-    const port = { getPlannedWorkouts: jest.fn().mockResolvedValue([workout]) } as unknown as IntervalsPort;
-    const clock = { now: jest.fn() } as unknown as ClockPort;
+    const port = {
+      getPlannedWorkouts: jest.fn().mockResolvedValue([workout]),
+    } as unknown as IntervalsPort;
+    const now = jest.fn();
+    const clock = { now } as unknown as ClockPort;
     const useCase = new GetPlannedWeekUseCase(port, clock);
 
     const result = await useCase.execute({ weekStart: '2026-09-08' });
 
     expect(result.workouts).toEqual([workout]);
-    expect(clock.now).not.toHaveBeenCalled();
+    expect(now).not.toHaveBeenCalled();
   });
 
   it('defaults to the current week when weekStart is omitted', async () => {
-    const port = { getPlannedWorkouts: jest.fn().mockResolvedValue([workout]) } as unknown as IntervalsPort;
-    const clock = { now: () => new Date('2026-09-10') } as unknown as ClockPort;
+    const getPlannedWorkouts = jest.fn().mockResolvedValue([workout]);
+    const port = { getPlannedWorkouts } as unknown as IntervalsPort;
+    const clock = { now: () => new Date('2026-09-10') };
     const useCase = new GetPlannedWeekUseCase(port, clock);
 
     await useCase.execute({});
 
-    expect(port.getPlannedWorkouts).toHaveBeenCalledWith(expect.anything());
+    expect(getPlannedWorkouts).toHaveBeenCalledWith(expect.anything());
   });
 });

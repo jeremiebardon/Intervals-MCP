@@ -1,7 +1,12 @@
 import { Activity, ActivityDetail } from '../../domain/activity';
 import { Wellness } from '../../domain/wellness';
 import { PlannedWorkout } from '../../domain/planned-workout';
-import { ActivityApiResponse, ActivityDetailApiResponse, WellnessApiResponse, PlannedWorkoutApiResponse } from './schemas';
+import {
+  ActivityApiResponse,
+  ActivityDetailApiResponse,
+  WellnessApiResponse,
+  PlannedWorkoutApiResponse,
+} from './schemas';
 
 export function toActivity(api: ActivityApiResponse): Activity {
   return {
@@ -17,7 +22,9 @@ export function toActivity(api: ActivityApiResponse): Activity {
   };
 }
 
-export function toActivityDetail(api: ActivityDetailApiResponse): ActivityDetail {
+export function toActivityDetail(
+  api: ActivityDetailApiResponse,
+): ActivityDetail {
   return {
     ...toActivity(api),
     intervals: api.intervals.map((i) => ({
@@ -48,7 +55,9 @@ export function toWellness(api: WellnessApiResponse): Wellness {
   };
 }
 
-export function toPlannedWorkout(api: PlannedWorkoutApiResponse): PlannedWorkout {
+export function toPlannedWorkout(
+  api: PlannedWorkoutApiResponse,
+): PlannedWorkout {
   return {
     id: api.id,
     date: api.start_date_local,

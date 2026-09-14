@@ -11,12 +11,18 @@ import {
 const inputSchema = z.object({
   from: z.string().describe('ISO date, inclusive'),
   to: z.string().describe('ISO date, inclusive'),
-  sport: z.string().optional().describe('Filter by sport, e.g. "Ride" or "Run"'),
+  sport: z
+    .string()
+    .optional()
+    .describe('Filter by sport, e.g. "Ride" or "Run"'),
   limit: z.number().int().positive().max(50).optional(),
 });
 
 @Injectable()
-export class RecentActivitiesTool implements McpTool<GetRecentActivitiesInput, GetRecentActivitiesOutput> {
+export class RecentActivitiesTool implements McpTool<
+  GetRecentActivitiesInput,
+  GetRecentActivitiesOutput
+> {
   name = 'get_recent_activities';
   description =
     'List recent activities in a date range with compact summaries (date, name, distance, duration, avg HR, pace, load). ' +
@@ -25,5 +31,7 @@ export class RecentActivitiesTool implements McpTool<GetRecentActivitiesInput, G
 
   constructor(private readonly useCase: GetRecentActivitiesUseCase) {}
 
-  execute = withToolSpan(this.name, (input: GetRecentActivitiesInput) => this.useCase.execute(input));
+  execute = withToolSpan(this.name, (input: GetRecentActivitiesInput) =>
+    this.useCase.execute(input),
+  );
 }

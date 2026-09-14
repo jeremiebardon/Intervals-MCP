@@ -14,7 +14,10 @@ const inputSchema = z.object({
 });
 
 @Injectable()
-export class WellnessTrendTool implements McpTool<GetWellnessTrendInput, GetWellnessTrendOutput> {
+export class WellnessTrendTool implements McpTool<
+  GetWellnessTrendInput,
+  GetWellnessTrendOutput
+> {
   name = 'get_wellness_trend';
   description =
     'Daily wellness series (HRV, resting HR, sleep, weight, fatigue) for a date range. ' +
@@ -23,5 +26,7 @@ export class WellnessTrendTool implements McpTool<GetWellnessTrendInput, GetWell
 
   constructor(private readonly useCase: GetWellnessTrendUseCase) {}
 
-  execute = withToolSpan(this.name, (input: GetWellnessTrendInput) => this.useCase.execute(input));
+  execute = withToolSpan(this.name, (input: GetWellnessTrendInput) =>
+    this.useCase.execute(input),
+  );
 }

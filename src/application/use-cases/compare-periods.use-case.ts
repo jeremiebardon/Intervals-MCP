@@ -24,7 +24,10 @@ export interface ComparePeriodsOutput {
   deltas: PeriodDeltas;
 }
 
-function sumBy(activities: Activity[], select: (a: Activity) => number): number {
+function sumBy(
+  activities: Activity[],
+  select: (a: Activity) => number,
+): number {
   return activities.reduce((sum, a) => sum + select(a), 0);
 }
 
@@ -39,8 +42,14 @@ export class ComparePeriodsUseCase {
   constructor(private readonly intervals: IntervalsPort) {}
 
   async execute(input: ComparePeriodsInput): Promise<ComparePeriodsOutput> {
-    const rangeA = DateRange.of(new Date(input.periodA.from), new Date(input.periodA.to));
-    const rangeB = DateRange.of(new Date(input.periodB.from), new Date(input.periodB.to));
+    const rangeA = DateRange.of(
+      new Date(input.periodA.from),
+      new Date(input.periodA.to),
+    );
+    const rangeB = DateRange.of(
+      new Date(input.periodB.from),
+      new Date(input.periodB.to),
+    );
 
     const [activitiesA, activitiesB] = await Promise.all([
       this.intervals.getActivities(rangeA),
@@ -52,9 +61,15 @@ export class ComparePeriodsUseCase {
 
     return {
       deltas: {
-        distanceMeters: sumBy(activitiesB, (a) => a.distanceMeters) - sumBy(activitiesA, (a) => a.distanceMeters),
-        durationSeconds: sumBy(activitiesB, (a) => a.durationSeconds) - sumBy(activitiesA, (a) => a.durationSeconds),
-        trainingLoad: sumBy(activitiesB, (a) => a.trainingLoad ?? 0) - sumBy(activitiesA, (a) => a.trainingLoad ?? 0),
+        distanceMeters:
+          sumBy(activitiesB, (a) => a.distanceMeters) -
+          sumBy(activitiesA, (a) => a.distanceMeters),
+        durationSeconds:
+          sumBy(activitiesB, (a) => a.durationSeconds) -
+          sumBy(activitiesA, (a) => a.durationSeconds),
+        trainingLoad:
+          sumBy(activitiesB, (a) => a.trainingLoad ?? 0) -
+          sumBy(activitiesA, (a) => a.trainingLoad ?? 0),
         avgHeartRate: hrA !== null && hrB !== null ? hrB - hrA : null,
       },
     };

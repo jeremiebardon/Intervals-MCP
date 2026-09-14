@@ -7,7 +7,7 @@ import { PlannedWeekTool } from './tools/planned-week.tool';
 import { TrainingLoadSummaryTool } from './tools/training-load-summary.tool';
 import { ComparePeriodsTool } from './tools/compare-periods.tool';
 
-const tools = [
+export const tools = [
   RecentActivitiesTool,
   ActivityDetailTool,
   WellnessTrendTool,

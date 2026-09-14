@@ -14,8 +14,14 @@ describe('DateRange', () => {
   });
 
   it('rejects from > to', () => {
-    expect(() => DateRange.of(new Date('2026-02-01'), new Date('2026-01-01'))).toThrow(
-      /must be <=/,
-    );
+    expect(() =>
+      DateRange.of(new Date('2026-02-01'), new Date('2026-01-01')),
+    ).toThrow(/must be <=/);
+  });
+
+  it('rejects invalid dates', () => {
+    expect(() =>
+      DateRange.of(new Date('not a date'), new Date('2026-01-01')),
+    ).toThrow(/must be valid/);
   });
 });

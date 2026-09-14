@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { InfrastructureModule } from '../infrastructure/infrastructure.module';
 import { GetRecentActivitiesUseCase } from './use-cases/get-recent-activities.use-case';
 import { GetActivityDetailUseCase } from './use-cases/get-activity-detail.use-case';
 import { GetWellnessTrendUseCase } from './use-cases/get-wellness-trend.use-case';
@@ -16,6 +17,7 @@ const useCases = [
 ];
 
 @Module({
+  imports: [InfrastructureModule],
   providers: useCases,
   exports: useCases,
 })

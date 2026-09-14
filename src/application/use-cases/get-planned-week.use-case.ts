@@ -29,7 +29,9 @@ export class GetPlannedWeekUseCase {
   ) {}
 
   async execute(input: GetPlannedWeekInput): Promise<GetPlannedWeekOutput> {
-    const from = input.weekStart ? new Date(input.weekStart) : startOfWeek(this.clock.now());
+    const from = input.weekStart
+      ? new Date(input.weekStart)
+      : startOfWeek(this.clock.now());
     const to = new Date(from);
     to.setUTCDate(from.getUTCDate() + 6);
     const range = DateRange.of(from, to);

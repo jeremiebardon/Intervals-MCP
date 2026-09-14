@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { IntervalsPort } from '../../application/ports/intervals.port';
 import { DateRange } from '../../domain/date-range';
-import { Activity, ActivityDetail, TrainingLoad } from '../../domain/activity';
+import { Activity, ActivityDetail } from '../../domain/activity';
 import { Wellness } from '../../domain/wellness';
 import { PlannedWorkout } from '../../domain/planned-workout';
 import { ApiKeyCredentialProvider } from '../auth/api-key.credential-provider';
@@ -13,7 +13,12 @@ import {
   wellnessResponseSchema,
   plannedWorkoutsResponseSchema,
 } from './schemas';
-import { toActivity, toActivityDetail, toWellness, toPlannedWorkout } from './mappers';
+import {
+  toActivity,
+  toActivityDetail,
+  toWellness,
+  toPlannedWorkout,
+} from './mappers';
 
 const BASE_URL = 'https://intervals.icu/api/v1';
 
@@ -52,7 +57,9 @@ export class IntervalsHttpAdapter implements IntervalsPort {
 
   async getActivityDetail(activityId: string): Promise<ActivityDetail> {
     const response = await firstValueFrom(
-      this.http.get(`${BASE_URL}/activity/${activityId}`, { auth: this.auth() }),
+      this.http.get(`${BASE_URL}/activity/${activityId}`, {
+        auth: this.auth(),
+      }),
     );
     return toActivityDetail(activityDetailSchema.parse(response.data));
   }
@@ -74,17 +81,8 @@ export class IntervalsHttpAdapter implements IntervalsPort {
         params: { oldest: isoDate(range.from), newest: isoDate(range.to) },
       }),
     );
-    return plannedWorkoutsResponseSchema.parse(response.data).map(toPlannedWorkout);
-  }
-
-  // NOTE: GetTrainingLoadSummaryUseCase computes CTL/ATL/TSB itself from
-  // getActivities() and does not call this method. This method exists to
-  // satisfy IntervalsPort's shape; revisit if a future use-case needs
-  // upstream-computed load directly.
-  async getTrainingLoad(range: DateRange): Promise<TrainingLoad[]> {
-    const activities = await this.getActivities(range);
-    return activities
-      .filter((a) => a.trainingLoad !== null)
-      .map((a) => ({ date: a.date, ctl: 0, atl: 0, tsb: 0 }));
+    return plannedWorkoutsResponseSchema
+      .parse(response.data)
+      .map(toPlannedWorkout);
   }
 }

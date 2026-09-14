@@ -7,7 +7,9 @@ function makeConfig(values: Record<string, string>): ConfigService {
 
 describe('ApiKeyCredentialProvider', () => {
   it('returns the configured API key', () => {
-    const provider = new ApiKeyCredentialProvider(makeConfig({ INTERVALS_API_KEY: 'secret123' }));
+    const provider = new ApiKeyCredentialProvider(
+      makeConfig({ INTERVALS_API_KEY: 'secret123' }),
+    );
     expect(provider.getApiKey()).toBe('secret123');
   });
 
@@ -17,7 +19,9 @@ describe('ApiKeyCredentialProvider', () => {
   });
 
   it('defaults athlete id to "0"', () => {
-    const provider = new ApiKeyCredentialProvider(makeConfig({ INTERVALS_API_KEY: 'x' }));
+    const provider = new ApiKeyCredentialProvider(
+      makeConfig({ INTERVALS_API_KEY: 'x' }),
+    );
     expect(provider.getAthleteId()).toBe('0');
   });
 
