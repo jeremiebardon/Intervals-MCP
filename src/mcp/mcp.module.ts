@@ -5,22 +5,20 @@ import { ActivityDetailTool } from './tools/activity-detail.tool';
 import { WellnessTrendTool } from './tools/wellness-trend.tool';
 import { PlannedWeekTool } from './tools/planned-week.tool';
 import { TrainingLoadSummaryTool } from './tools/training-load-summary.tool';
+import { ComparePeriodsTool } from './tools/compare-periods.tool';
+
+const tools = [
+  RecentActivitiesTool,
+  ActivityDetailTool,
+  WellnessTrendTool,
+  PlannedWeekTool,
+  TrainingLoadSummaryTool,
+  ComparePeriodsTool,
+];
 
 @Module({
   imports: [ApplicationModule],
-  providers: [
-    RecentActivitiesTool,
-    ActivityDetailTool,
-    WellnessTrendTool,
-    PlannedWeekTool,
-    TrainingLoadSummaryTool,
-  ],
-  exports: [
-    RecentActivitiesTool,
-    ActivityDetailTool,
-    WellnessTrendTool,
-    PlannedWeekTool,
-    TrainingLoadSummaryTool,
-  ],
+  providers: tools,
+  exports: tools,
 })
 export class McpModule {}

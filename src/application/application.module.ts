@@ -4,21 +4,19 @@ import { GetActivityDetailUseCase } from './use-cases/get-activity-detail.use-ca
 import { GetWellnessTrendUseCase } from './use-cases/get-wellness-trend.use-case';
 import { GetPlannedWeekUseCase } from './use-cases/get-planned-week.use-case';
 import { GetTrainingLoadSummaryUseCase } from './use-cases/get-training-load-summary.use-case';
+import { ComparePeriodsUseCase } from './use-cases/compare-periods.use-case';
+
+const useCases = [
+  GetRecentActivitiesUseCase,
+  GetActivityDetailUseCase,
+  GetWellnessTrendUseCase,
+  GetPlannedWeekUseCase,
+  GetTrainingLoadSummaryUseCase,
+  ComparePeriodsUseCase,
+];
 
 @Module({
-  providers: [
-    GetRecentActivitiesUseCase,
-    GetActivityDetailUseCase,
-    GetWellnessTrendUseCase,
-    GetPlannedWeekUseCase,
-    GetTrainingLoadSummaryUseCase,
-  ],
-  exports: [
-    GetRecentActivitiesUseCase,
-    GetActivityDetailUseCase,
-    GetWellnessTrendUseCase,
-    GetPlannedWeekUseCase,
-    GetTrainingLoadSummaryUseCase,
-  ],
+  providers: useCases,
+  exports: useCases,
 })
 export class ApplicationModule {}
