@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - phoenix_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '6006:6006'
+      - '4317:4317'
+    environment:
+      PHOENIX_SQL_DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+
+  agent:
+    build:
+      context: .
+      dockerfile: apps/agent/Dockerfile
+    depends_on:
+      - phoenix
+    ports:
+      - '8787:8787'
+    environment:
+      AGENT_PORT: 8787
+      PHOENIX_COLLECTOR_ENDPOINT: http://phoenix:6006
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          'fetch("http://localhost:8787/health").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# The MCP server is intentionally absent. It speaks stdio and is spawned as a
+# subprocess by its client (Claude Desktop / Claude Code), so it runs on the
+# host and traces into this Phoenix via the published port 6006. See README.
+
+volumes:
+  phoenix_db:
