@@ -4,7 +4,8 @@ dist/
 .worktrees/
 .superpowers/
 coverage/
-fixtures/recorded/
+apps/mcp-server/fixtures/recorded/
+.turbo/
 
 # Added by px setup — local Phoenix credentials
 .env.phoenix

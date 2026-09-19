@@ -123,10 +123,12 @@ describe('GetTrainingLoadSummaryUseCase', () => {
   });
 
   it('defaults to 12 weeks when weeks is omitted', async () => {
-    const getActivities = jest.fn<
-      ReturnType<IntervalsPort['getActivities']>,
-      Parameters<IntervalsPort['getActivities']>
-    >().mockResolvedValue([]);
+    const getActivities = jest
+      .fn<
+        ReturnType<IntervalsPort['getActivities']>,
+        Parameters<IntervalsPort['getActivities']>
+      >()
+      .mockResolvedValue([]);
     const port = { getActivities } as unknown as IntervalsPort;
     const useCase = new GetTrainingLoadSummaryUseCase(port, clock);
 

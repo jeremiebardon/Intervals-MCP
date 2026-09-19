@@ -100,10 +100,12 @@ describe('GetRecentActivitiesUseCase', () => {
   });
 
   it('defaults to the last 7 days when from/to are omitted', async () => {
-    const getActivities = jest.fn<
-      ReturnType<IntervalsPort['getActivities']>,
-      Parameters<IntervalsPort['getActivities']>
-    >().mockResolvedValue([]);
+    const getActivities = jest
+      .fn<
+        ReturnType<IntervalsPort['getActivities']>,
+        Parameters<IntervalsPort['getActivities']>
+      >()
+      .mockResolvedValue([]);
     const port = { getActivities } as unknown as IntervalsPort;
     const useCase = new GetRecentActivitiesUseCase(port, clock);
 
