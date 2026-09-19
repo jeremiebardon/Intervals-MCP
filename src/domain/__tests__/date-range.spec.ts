@@ -1,4 +1,4 @@
-import { DateRange } from './date-range';
+import { DateRange } from '../date-range';
 
 describe('DateRange', () => {
   it('accepts from <= to', () => {

@@ -1,9 +1,16 @@
-import { Activity, ActivityDetail } from '../../domain/activity';
+import {
+  Activity,
+  ActivityDetail,
+  ActivityIntervalGroup,
+  ActivityIntervalStat,
+  ActivityIntervals,
+} from '../../domain/activity';
 import { Wellness } from '../../domain/wellness';
 import { PlannedWorkout } from '../../domain/planned-workout';
 import {
   ActivityApiResponse,
   ActivityDetailApiResponse,
+  ActivityIntervalsApiResponse,
   WellnessApiResponse,
   PlannedWorkoutApiResponse,
 } from './schemas';
@@ -41,6 +48,51 @@ export function toActivityDetail(
       zone4Seconds: api.hr_zone_distribution.z4_secs,
       zone5Seconds: api.hr_zone_distribution.z5_secs,
     },
+  };
+}
+
+function toActivityIntervalStat(
+  api: ActivityIntervalsApiResponse['icu_intervals'][number],
+): ActivityIntervalStat {
+  return {
+    id: api.id,
+    groupId: api.group_id,
+    label: api.label,
+    type: api.type,
+    durationSeconds: api.moving_time,
+    distanceMeters: api.distance,
+    avgHeartRate: api.average_heartrate,
+    maxHeartRate: api.max_heartrate,
+    avgPower: api.average_watts,
+    avgPaceMetersPerSecond: api.average_speed,
+    gapMetersPerSecond: api.gap,
+    avgCadence: api.average_cadence,
+    elevationGainMeters: api.total_elevation_gain,
+    trainingLoad: api.training_load,
+    zone: api.zone,
+  };
+}
+
+function toActivityIntervalGroup(
+  api: ActivityIntervalsApiResponse['icu_groups'][number],
+): ActivityIntervalGroup {
+  return {
+    id: api.id,
+    count: api.count,
+    durationSeconds: api.moving_time,
+    distanceMeters: api.distance,
+    avgHeartRate: api.average_heartrate,
+    avgPower: api.average_watts,
+    avgPaceMetersPerSecond: api.average_speed,
+  };
+}
+
+export function toActivityIntervals(
+  api: ActivityIntervalsApiResponse,
+): ActivityIntervals {
+  return {
+    intervals: api.icu_intervals.map(toActivityIntervalStat),
+    groups: api.icu_groups.map(toActivityIntervalGroup),
   };
 }
 

@@ -3,19 +3,25 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { IntervalsPort } from '../../application/ports/intervals.port';
 import { DateRange } from '../../domain/date-range';
-import { Activity, ActivityDetail } from '../../domain/activity';
+import {
+  Activity,
+  ActivityDetail,
+  ActivityIntervals,
+} from '../../domain/activity';
 import { Wellness } from '../../domain/wellness';
 import { PlannedWorkout } from '../../domain/planned-workout';
 import { ApiKeyCredentialProvider } from '../auth/api-key.credential-provider';
 import {
   activitiesResponseSchema,
   activityDetailSchema,
+  activityIntervalsResponseSchema,
   wellnessResponseSchema,
   plannedWorkoutsResponseSchema,
 } from './schemas';
 import {
   toActivity,
   toActivityDetail,
+  toActivityIntervals,
   toWellness,
   toPlannedWorkout,
 } from './mappers';
@@ -62,6 +68,17 @@ export class IntervalsHttpAdapter implements IntervalsPort {
       }),
     );
     return toActivityDetail(activityDetailSchema.parse(response.data));
+  }
+
+  async getActivityIntervals(activityId: string): Promise<ActivityIntervals> {
+    const response = await firstValueFrom(
+      this.http.get(`${BASE_URL}/activity/${activityId}/intervals`, {
+        auth: this.auth(),
+      }),
+    );
+    return toActivityIntervals(
+      activityIntervalsResponseSchema.parse(response.data),
+    );
   }
 
   async getWellness(range: DateRange): Promise<Wellness[]> {

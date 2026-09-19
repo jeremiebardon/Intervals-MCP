@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { ApiKeyCredentialProvider } from './api-key.credential-provider';
+import { ApiKeyCredentialProvider } from '../api-key.credential-provider';
 
 function makeConfig(values: Record<string, string>): ConfigService {
   return { get: (key: string) => values[key] } as unknown as ConfigService;

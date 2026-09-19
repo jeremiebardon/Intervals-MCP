@@ -9,8 +9,11 @@ import {
 } from '../../application/use-cases/get-recent-activities.use-case';
 
 const inputSchema = z.object({
-  from: z.string().describe('ISO date, inclusive'),
-  to: z.string().describe('ISO date, inclusive'),
+  from: z
+    .string()
+    .optional()
+    .describe('ISO date, inclusive. Defaults to 7 days before `to`.'),
+  to: z.string().optional().describe('ISO date, inclusive. Defaults to today.'),
   sport: z
     .string()
     .optional()

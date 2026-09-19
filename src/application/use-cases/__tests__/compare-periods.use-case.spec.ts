@@ -1,6 +1,6 @@
-import { ComparePeriodsUseCase } from './compare-periods.use-case';
-import { IntervalsPort } from '../ports/intervals.port';
-import { Activity } from '../../domain/activity';
+import { ComparePeriodsUseCase } from '../compare-periods.use-case';
+import { IntervalsPort } from '../../ports/intervals.port';
+import { Activity } from '../../../domain/activity';
 
 function makeActivity(overrides: Partial<Activity>): Activity {
   return {

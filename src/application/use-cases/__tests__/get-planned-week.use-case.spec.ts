@@ -1,7 +1,7 @@
-import { GetPlannedWeekUseCase } from './get-planned-week.use-case';
-import { IntervalsPort } from '../ports/intervals.port';
-import { ClockPort } from '../ports/clock.port';
-import { PlannedWorkout } from '../../domain/planned-workout';
+import { GetPlannedWeekUseCase } from '../get-planned-week.use-case';
+import { IntervalsPort } from '../../ports/intervals.port';
+import { ClockPort } from '../../ports/clock.port';
+import { PlannedWorkout } from '../../../domain/planned-workout';
 
 describe('GetPlannedWeekUseCase', () => {
   const workout: PlannedWorkout = {

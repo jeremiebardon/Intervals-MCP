@@ -14,7 +14,8 @@ const inputSchema = z.object({
     .int()
     .positive()
     .max(26)
-    .describe('Number of weeks to look back from today'),
+    .optional()
+    .describe('Number of weeks to look back from today. Defaults to 12.'),
 });
 
 @Injectable()

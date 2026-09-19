@@ -1,6 +1,6 @@
-import { GetWellnessTrendUseCase } from './get-wellness-trend.use-case';
-import { IntervalsPort } from '../ports/intervals.port';
-import { Wellness } from '../../domain/wellness';
+import { GetWellnessTrendUseCase } from '../get-wellness-trend.use-case';
+import { IntervalsPort } from '../../ports/intervals.port';
+import { Wellness } from '../../../domain/wellness';
 
 describe('GetWellnessTrendUseCase', () => {
   it('returns the wellness days for the range', async () => {

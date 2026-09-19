@@ -1,6 +1,9 @@
-import { GetRecentActivitiesUseCase } from './get-recent-activities.use-case';
-import { IntervalsPort } from '../ports/intervals.port';
-import { Activity } from '../../domain/activity';
+import { GetRecentActivitiesUseCase } from '../get-recent-activities.use-case';
+import { IntervalsPort } from '../../ports/intervals.port';
+import { ClockPort } from '../../ports/clock.port';
+import { Activity } from '../../../domain/activity';
+
+const clock: ClockPort = { now: () => new Date('2026-09-07') };
 
 function makeActivity(overrides: Partial<Activity> = {}): Activity {
   return {
@@ -24,7 +27,7 @@ describe('GetRecentActivitiesUseCase', () => {
     );
     const getActivities = jest.fn().mockResolvedValue(activities);
     const port = { getActivities } as unknown as IntervalsPort;
-    const useCase = new GetRecentActivitiesUseCase(port);
+    const useCase = new GetRecentActivitiesUseCase(port, clock);
 
     const result = await useCase.execute({
       from: '2026-09-01',
@@ -45,7 +48,7 @@ describe('GetRecentActivitiesUseCase', () => {
     const port = {
       getActivities: jest.fn().mockResolvedValue(activities),
     } as unknown as IntervalsPort;
-    const useCase = new GetRecentActivitiesUseCase(port);
+    const useCase = new GetRecentActivitiesUseCase(port, clock);
 
     const result = await useCase.execute({
       from: '2026-09-01',
@@ -63,7 +66,7 @@ describe('GetRecentActivitiesUseCase', () => {
   it('passes the sport filter through to the port', async () => {
     const getActivities = jest.fn().mockResolvedValue([]);
     const port = { getActivities } as unknown as IntervalsPort;
-    const useCase = new GetRecentActivitiesUseCase(port);
+    const useCase = new GetRecentActivitiesUseCase(port, clock);
 
     await useCase.execute({
       from: '2026-09-01',
@@ -72,5 +75,20 @@ describe('GetRecentActivitiesUseCase', () => {
     });
 
     expect(getActivities).toHaveBeenCalledWith(expect.anything(), 'Run');
+  });
+
+  it('defaults to the last 7 days when from/to are omitted', async () => {
+    const getActivities = jest.fn<
+      ReturnType<IntervalsPort['getActivities']>,
+      Parameters<IntervalsPort['getActivities']>
+    >().mockResolvedValue([]);
+    const port = { getActivities } as unknown as IntervalsPort;
+    const useCase = new GetRecentActivitiesUseCase(port, clock);
+
+    await useCase.execute({});
+
+    const [range] = getActivities.mock.calls[0];
+    expect(range.to.toISOString()).toBe('2026-09-07T00:00:00.000Z');
+    expect(range.from.toISOString()).toBe('2026-08-31T00:00:00.000Z');
   });
 });

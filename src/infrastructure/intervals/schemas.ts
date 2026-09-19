@@ -7,10 +7,17 @@ export const activitySchema = z.object({
   type: z.string(),
   distance: z.number().nullable(),
   moving_time: z.number().nullable(),
-  icu_average_hr: z.number().nullable(),
-  icu_pace: z.number().nullable(),
+  icu_average_hr: z
+    .number()
+    .nullish()
+    .transform((v) => v ?? null),
+  icu_pace: z
+    .number()
+    .nullish()
+    .transform((v) => v ?? null),
   icu_training_load: z.number().nullable(),
 });
+
 export type ActivityApiResponse = z.infer<typeof activitySchema>;
 
 export const activitiesResponseSchema = z.array(activitySchema);
@@ -37,6 +44,50 @@ export const activityDetailSchema = activitySchema.extend({
 });
 export type ActivityDetailApiResponse = z.infer<typeof activityDetailSchema>;
 
+export const intervalStatSchema = z.object({
+  id: z.number(),
+  group_id: z
+    .string()
+    .nullish()
+    .transform((v) => v ?? null),
+  label: z
+    .string()
+    .nullish()
+    .transform((v) => v ?? null),
+  type: z.enum(['WORK', 'RECOVERY']),
+  moving_time: z.number(),
+  distance: z.number().nullable(),
+  average_heartrate: z.number().nullable(),
+  max_heartrate: z.number().nullable(),
+  average_watts: z.number().nullable(),
+  average_speed: z.number().nullable(),
+  gap: z.number().nullable(),
+  average_cadence: z.number().nullable(),
+  total_elevation_gain: z.number().nullable(),
+  training_load: z.number().nullable(),
+  zone: z.number().nullable(),
+});
+export type IntervalStatApiResponse = z.infer<typeof intervalStatSchema>;
+
+export const intervalGroupSchema = z.object({
+  id: z.string(),
+  count: z.number().nullable(),
+  moving_time: z.number(),
+  distance: z.number().nullable(),
+  average_heartrate: z.number().nullable(),
+  average_watts: z.number().nullable(),
+  average_speed: z.number().nullable(),
+});
+export type IntervalGroupApiResponse = z.infer<typeof intervalGroupSchema>;
+
+export const activityIntervalsResponseSchema = z.object({
+  icu_intervals: z.array(intervalStatSchema).default([]),
+  icu_groups: z.array(intervalGroupSchema).default([]),
+});
+export type ActivityIntervalsApiResponse = z.infer<
+  typeof activityIntervalsResponseSchema
+>;
+
 export const wellnessSchema = z.object({
   id: z.string(),
   hrv: z.number().nullable(),
@@ -45,6 +96,7 @@ export const wellnessSchema = z.object({
   weight: z.number().nullable(),
   fatigue: z.number().nullable(),
 });
+
 export type WellnessApiResponse = z.infer<typeof wellnessSchema>;
 
 export const wellnessResponseSchema = z.array(wellnessSchema);

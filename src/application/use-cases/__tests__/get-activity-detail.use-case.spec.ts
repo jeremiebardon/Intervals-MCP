@@ -1,6 +1,6 @@
-import { GetActivityDetailUseCase } from './get-activity-detail.use-case';
-import { IntervalsPort } from '../ports/intervals.port';
-import { ActivityDetail } from '../../domain/activity';
+import { GetActivityDetailUseCase } from '../get-activity-detail.use-case';
+import { IntervalsPort } from '../../ports/intervals.port';
+import { ActivityDetail } from '../../../domain/activity';
 
 describe('GetActivityDetailUseCase', () => {
   it('delegates to the port and returns the detail', async () => {

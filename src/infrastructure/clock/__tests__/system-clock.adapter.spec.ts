@@ -1,4 +1,4 @@
-import { SystemClockAdapter } from './system-clock.adapter';
+import { SystemClockAdapter } from '../system-clock.adapter';
 
 describe('SystemClockAdapter', () => {
   it('returns the current time', () => {

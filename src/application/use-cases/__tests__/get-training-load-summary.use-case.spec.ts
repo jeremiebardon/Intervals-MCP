@@ -1,6 +1,6 @@
-import { GetTrainingLoadSummaryUseCase } from './get-training-load-summary.use-case';
-import { IntervalsPort } from '../ports/intervals.port';
-import { Activity } from '../../domain/activity';
+import { GetTrainingLoadSummaryUseCase } from '../get-training-load-summary.use-case';
+import { IntervalsPort } from '../../ports/intervals.port';
+import { Activity } from '../../../domain/activity';
 
 function makeActivity(date: string, load: number): Activity {
   return {
@@ -98,5 +98,20 @@ describe('GetTrainingLoadSummaryUseCase', () => {
     const lastPoint = result.points[result.points.length - 1];
     expect(lastPoint.ctl).toBeGreaterThan(dailyLoad * 0.9);
     expect(lastPoint.ctl).toBeLessThan(dailyLoad * 1.1);
+  });
+
+  it('defaults to 12 weeks when weeks is omitted', async () => {
+    const getActivities = jest.fn<
+      ReturnType<IntervalsPort['getActivities']>,
+      Parameters<IntervalsPort['getActivities']>
+    >().mockResolvedValue([]);
+    const port = { getActivities } as unknown as IntervalsPort;
+    const useCase = new GetTrainingLoadSummaryUseCase(port, clock);
+
+    await useCase.execute({});
+
+    const [range] = getActivities.mock.calls[0];
+    // clock.now() is 2026-09-14; 12 weeks back is 2026-06-22, minus the 42-day warm-up is 2026-05-11.
+    expect(range.from.toISOString().slice(0, 10)).toBe('2026-05-11');
   });
 });

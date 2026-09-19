@@ -57,9 +57,14 @@ async function main() {
       `${base}/activity/${activities[0].id}`,
       {},
     );
+    await record(
+      `activity-intervals.json`,
+      `${base}/activity/${activities[0].id}/intervals`,
+      {},
+    );
   } else {
     console.warn(
-      'No activities in range; activity-detail.json was not refreshed.',
+      'No activities in range; activity-detail.json and activity-intervals.json were not refreshed.',
     );
   }
 }

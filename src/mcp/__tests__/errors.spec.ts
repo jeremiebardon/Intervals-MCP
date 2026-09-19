@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { toMcpError } from './errors';
+import { toMcpError } from '../errors';
 
 describe('toMcpError', () => {
   it('maps an Error to a generic error code with its message', () => {

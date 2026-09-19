@@ -5,8 +5,10 @@ import { DateRange } from '../../domain/date-range';
 import { TrainingLoad } from '../../domain/activity';
 
 export interface GetTrainingLoadSummaryInput {
-  weeks: number;
+  weeks?: number;
 }
+
+const DEFAULT_WEEKS = 12;
 
 export interface WeeklyVolume {
   weekStart: string;
@@ -49,9 +51,10 @@ export class GetTrainingLoadSummaryUseCase {
   async execute(
     input: GetTrainingLoadSummaryInput,
   ): Promise<GetTrainingLoadSummaryOutput> {
+    const weeks = input.weeks ?? DEFAULT_WEEKS;
     const to = this.clock.now();
     const from = new Date(to);
-    from.setUTCDate(to.getUTCDate() - input.weeks * 7);
+    from.setUTCDate(to.getUTCDate() - weeks * 7);
     // CTL is a 42-day EWMA; seeding it at 0 right at `from` would massively
     // understate fitness for short requested ranges. Fetch and iterate over
     // an extra CTL_DAYS of warm-up history so the recurrence has settled by
