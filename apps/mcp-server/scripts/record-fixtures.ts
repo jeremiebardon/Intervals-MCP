@@ -2,9 +2,12 @@
 import { config } from 'dotenv';
 import axios from 'axios';
 import { writeFileSync, mkdirSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
-config();
+// This script runs from apps/mcp-server/scripts (via ts-node), one level
+// shallower than src/infrastructure or dist/infrastructure, so it needs one
+// fewer ../ to reach the repo-root .env.
+config({ path: resolve(__dirname, '../../../.env') });
 
 const outDir = join(__dirname, '../fixtures/recorded');
 mkdirSync(outDir, { recursive: true });
