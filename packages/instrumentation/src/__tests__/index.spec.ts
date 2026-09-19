@@ -22,10 +22,8 @@ describe('registerTelemetry', () => {
   it('passes no endpoint, leaving PHOENIX_COLLECTOR_ENDPOINT to decide', () => {
     registerTelemetry({ projectName: 'intervals-agent' });
 
-    const params = (register as jest.Mock).mock.calls[0][0] as Record<
-      string,
-      unknown
-    >;
+    const mockRegister = register as jest.MockedFunction<typeof register>;
+    const params = mockRegister.mock.calls[0][0];
     expect(params).not.toHaveProperty('url');
   });
 });
