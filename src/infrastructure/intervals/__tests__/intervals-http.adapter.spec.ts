@@ -32,8 +32,9 @@ describe('IntervalsHttpAdapter', () => {
             type: 'Ride',
             distance: 42000,
             moving_time: 5400,
-            icu_average_hr: 142,
-            icu_pace: 128.5,
+            interval_summary: [],
+            average_heartrate: 142,
+            pace: 128.5,
             icu_training_load: 65,
           },
         ]),
@@ -60,7 +61,7 @@ describe('IntervalsHttpAdapter', () => {
     );
   });
 
-  it('maps activities where icu_average_hr and icu_pace are omitted by the API', async () => {
+  it('maps activities where average_heartrate and pace are omitted by the API', async () => {
     const get = jest.fn().mockReturnValue(
       of(
         axiosResponse([
@@ -71,8 +72,9 @@ describe('IntervalsHttpAdapter', () => {
             type: 'WeightTraining',
             distance: null,
             moving_time: 1800,
+            interval_summary: [],
             icu_training_load: 20,
-            // icu_average_hr and icu_pace intentionally absent
+            // average_heartrate and pace intentionally absent
           },
         ]),
       ),

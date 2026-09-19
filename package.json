@@ -20,11 +20,14 @@
     "fixtures:record": "ts-node scripts/record-fixtures.ts"
   },
   "dependencies": {
+    "@arizeai/openinference-instrumentation-mcp": "0.2.33",
+    "@arizeai/phoenix-otel": "2.2.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
+    "@opentelemetry/api": "1.9.1",
     "axios": "^1.20.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

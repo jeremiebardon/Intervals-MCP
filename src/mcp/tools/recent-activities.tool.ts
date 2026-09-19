@@ -28,8 +28,11 @@ export class RecentActivitiesTool implements McpTool<
 > {
   name = 'get_recent_activities';
   description =
-    'List recent activities in a date range with compact summaries (date, name, distance, duration, avg HR, pace, load). ' +
-    'Use for browsing sessions over days/weeks. For full detail on one session (intervals, HR zones), use get_activity_detail.';
+    'List recent activities in a date range with summaries (date, name, distance, duration, avg/max HR, pace/speed/GAP, power, ' +
+    'cadence, elevation, calories, training load, intensity, TRIMP, CTL/ATL fitness context, decoupling, efficiency factor, ' +
+    'and subjective feedback like RPE/feel). ' +
+    'Use for browsing sessions over days/weeks. For full detail on one session (intervals, HR zones), use get_activity_detail.' +
+    'This should not be used as a performance indicator alone, depending the load of the activity you could retrieve more intervals/activity detail with get_activity_detail ';
   inputSchema = inputSchema;
 
   constructor(private readonly useCase: GetRecentActivitiesUseCase) {}

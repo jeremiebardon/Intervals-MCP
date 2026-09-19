@@ -6,8 +6,9 @@
     "type": "Ride",
     "distance": 42000,
     "moving_time": 5400,
-    "icu_average_hr": 142,
-    "icu_pace": 128.5,
+    "interval_summary": [],
+    "average_heartrate": 142,
+    "pace": 128.5,
     "icu_training_load": 65
   }
 ]

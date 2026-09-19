@@ -1,21 +1,52 @@
 import { z } from 'zod';
 
+const nullableNumber = z
+  .number()
+  .nullish()
+  .transform((v) => v ?? null);
+
 export const activitySchema = z.object({
   id: z.string(),
   start_date_local: z.string(),
   name: z.string(),
   type: z.string(),
+  description: z
+    .string()
+    .nullish()
+    .transform((v) => v ?? null),
   distance: z.number().nullable(),
   moving_time: z.number().nullable(),
-  icu_average_hr: z
-    .number()
-    .nullish()
-    .transform((v) => v ?? null),
-  icu_pace: z
-    .number()
-    .nullish()
-    .transform((v) => v ?? null),
+  elapsed_time: nullableNumber,
+  interval_summary: z.array(z.string()),
+  // Heart rate
+  average_heartrate: nullableNumber,
+  max_heartrate: nullableNumber,
+  // Pace / speed (m/s). `pace` and `average_speed` can differ slightly
+  // (moving-time vs elapsed-time based); `gap` is grade-adjusted pace.
+  pace: nullableNumber,
+  average_speed: nullableNumber,
+  gap: nullableNumber,
+  // Power (cycling / power-meter equipped activities)
+  icu_average_watts: nullableNumber,
+  icu_weighted_avg_watts: nullableNumber,
+  // Effort / load
   icu_training_load: z.number().nullable(),
+  icu_intensity: nullableNumber,
+  trimp: nullableNumber,
+  icu_atl: nullableNumber,
+  icu_ctl: nullableNumber,
+  decoupling: nullableNumber,
+  icu_efficiency_factor: nullableNumber,
+  // Subjective feedback
+  perceived_exertion: nullableNumber,
+  icu_rpe: nullableNumber,
+  feel: nullableNumber,
+  session_rpe: nullableNumber,
+  // Other physiological / environmental context
+  average_cadence: nullableNumber,
+  total_elevation_gain: nullableNumber,
+  total_elevation_loss: nullableNumber,
+  calories: nullableNumber,
 });
 
 export type ActivityApiResponse = z.infer<typeof activitySchema>;

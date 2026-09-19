@@ -1,3 +1,7 @@
 allowBuilds:
   '@parcel/watcher': true
   unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@arizeai/openinference-core@2.7.1'
+  - '@arizeai/openinference-instrumentation-mcp@0.2.33'
+  - '@arizeai/openinference-semantic-conventions@2.12.0'

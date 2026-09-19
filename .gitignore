@@ -5,3 +5,6 @@ dist/
 .superpowers/
 coverage/
 fixtures/recorded/
+
+# Added by px setup — local Phoenix credentials
+.env.phoenix
