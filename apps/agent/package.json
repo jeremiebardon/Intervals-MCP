@@ -1,0 +1,38 @@
+{
+  "name": "@intervals/agent",
+  "version": "0.0.1",
+  "description": "LangGraph agent boilerplate",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/main.js",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@intervals/instrumentation": "workspace:*",
+    "@langchain/core": "^1.2.11",
+    "@langchain/langgraph": "^1.4.16",
+    "@opentelemetry/api": "1.9.1"
+  },
+  "devDependencies": {
+    "@intervals/tsconfig": "workspace:*",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "jest": "^30.0.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "roots": ["<rootDir>/src"],
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "^@intervals/instrumentation$": "<rootDir>/../../packages/instrumentation/src/index.ts"
+    },
+    "testEnvironment": "node"
+  }
+}

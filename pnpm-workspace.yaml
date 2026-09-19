@@ -16,3 +16,5 @@ minimumReleaseAgeExclude:
   - '@turbo/windows-64@2.11.2'
   - '@turbo/windows-arm64@2.11.2'
   - turbo@2.11.2
+  - '@langchain/langgraph-sdk@1.11.1'
+  - '@langchain/langgraph@1.4.16'

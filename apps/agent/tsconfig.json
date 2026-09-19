@@ -1,0 +1,9 @@
+{
+  "extends": "@intervals/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": false
+  },
+  "include": ["src/**/*"]
+}
