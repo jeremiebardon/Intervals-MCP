@@ -26,16 +26,19 @@ services:
     environment:
       PHOENIX_SQL_DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
 
-  agent:
+  mcp-server:
     build:
       context: .
-      dockerfile: apps/agent/Dockerfile
+      dockerfile: apps/mcp-server/Dockerfile
+      target: production
     depends_on:
       - phoenix
     ports:
-      - '8787:8787'
+      - '${MCP_PORT:-3300}:3300'
     environment:
-      AGENT_PORT: 8787
+      MCP_PORT: 3300
+      INTERVALS_API_KEY: ${INTERVALS_API_KEY}
+      INTERVALS_ATHLETE_ID: ${INTERVALS_ATHLETE_ID:-0}
       PHOENIX_COLLECTOR_ENDPOINT: http://phoenix:6006
     healthcheck:
       test:
@@ -43,15 +46,41 @@ services:
           'CMD',
           'node',
           '-e',
-          'fetch("http://localhost:8787/health").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))',
+          'fetch("http://localhost:3300/health/ready").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))',
         ]
       interval: 10s
       timeout: 5s
       retries: 5
 
-# The MCP server is intentionally absent. It speaks stdio and is spawned as a
-# subprocess by its client (Claude Desktop / Claude Code), so it runs on the
-# host and traces into this Phoenix via the published port 6006. See README.
+  agent:
+    build:
+      context: .
+      dockerfile: apps/agent/Dockerfile
+      target: production
+    depends_on:
+      phoenix:
+        condition: service_started
+      mcp-server:
+        condition: service_healthy
+    ports:
+      - '${AGENT_PORT:-8787}:8787'
+    environment:
+      AGENT_PORT: 8787
+      MCP_SERVER_URL: http://mcp-server:3300/mcp
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-gemma4:12b}
+      PHOENIX_COLLECTOR_ENDPOINT: http://phoenix:6006
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          'fetch("http://localhost:8787/health/ready").then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   phoenix_db:
