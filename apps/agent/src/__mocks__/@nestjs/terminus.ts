@@ -37,25 +37,6 @@ class MockHttpHealthIndicator {
   );
 }
 
-class MockHealthIndicatorService {
-  check(key: string) {
-    return {
-      up: (data?: unknown) => {
-        const extra = typeof data === 'string' ? { message: data } : (data as Record<string, unknown>) || {};
-        return { [key]: { status: 'up', ...extra } };
-      },
-      down: (data?: unknown) => {
-        const extra = typeof data === 'string' ? { message: data } : (data as Record<string, unknown>) || {};
-        return { [key]: { status: 'down', ...extra } };
-      },
-      degraded: (data?: unknown) => {
-        const extra = typeof data === 'string' ? { message: data } : (data as Record<string, unknown>) || {};
-        return { [key]: { status: 'degraded', ...extra } };
-      },
-    };
-  }
-}
-
 const healthCheckServiceProvider: Provider = {
   provide: 'HealthCheckService',
   useClass: MockHealthCheckService,
@@ -66,27 +47,18 @@ const httpHealthIndicatorProvider: Provider = {
   useClass: MockHttpHealthIndicator,
 };
 
-const healthIndicatorServiceProvider: Provider = {
-  provide: 'HealthIndicatorService',
-  useClass: MockHealthIndicatorService,
-};
-
 @Module({
   providers: [
     MockHealthCheckService,
     MockHttpHealthIndicator,
-    MockHealthIndicatorService,
     healthCheckServiceProvider,
     httpHealthIndicatorProvider,
-    healthIndicatorServiceProvider,
   ],
   exports: [
     MockHealthCheckService,
     MockHttpHealthIndicator,
-    MockHealthIndicatorService,
     'HealthCheckService',
     'HttpHealthIndicator',
-    'HealthIndicatorService',
   ],
 })
 class TerminusModule {}
@@ -95,12 +67,10 @@ export {
   HealthCheckService,
   HealthCheck,
   HttpHealthIndicator,
-  HealthIndicatorService,
   TerminusModule,
 };
 
 // Mock exports
 const HealthCheckService = MockHealthCheckService;
 const HttpHealthIndicator = MockHttpHealthIndicator;
-const HealthIndicatorService = MockHealthIndicatorService;
 const HealthCheck = () => jest.fn();

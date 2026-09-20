@@ -48,6 +48,8 @@ whenever no `-f` flag is passed):
 | `mcp-server` | http://localhost:3300/mcp | The MCP server, Streamable HTTP transport |
 | `agent` | http://localhost:8787 | The LangGraph app. `POST /invoke` with `{"question": "..."}` |
 
+If `INTERVALS_API_KEY` is unset, `mcp-server`'s `/health/ready` reports not-ready, so it never becomes healthy and the `agent` service (which waits on `mcp-server` being healthy) will not start.
+
 Smoke test:
 
 ```bash

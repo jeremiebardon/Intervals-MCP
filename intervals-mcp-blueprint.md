@@ -135,8 +135,8 @@ intervals-mcp/
 │   │   │   └── ...
 │   │   ├── with-tool-span.ts         # decorator wrapping every tool handler
 │   │   ├── errors.ts                 # domain error -> MCP error mapping
-│   │   ├── server.ts                 # stdio entrypoint
-│   │   └── http.ts                   # Phase 4: streamable HTTP + OAuth
+│   │   ├── mcp.controller.ts         # POST/GET/DELETE /mcp (Streamable HTTP)
+│   │   └── mcp-transport.service.ts  # per-session Streamable HTTP transport
 │   │
 │   └── composition-root.ts           # wire adapters to ports (your DI, hand-rolled)
 │
