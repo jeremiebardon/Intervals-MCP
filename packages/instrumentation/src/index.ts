@@ -5,9 +5,18 @@ export interface TelemetryOptions {
   projectName: string;
 }
 
-// Returns void rather than the NodeTracerProvider: no caller needs the
-// provider, and naming it here would drag @opentelemetry/sdk-trace-node into
-// this package's public types.
-export function registerTelemetry(options: TelemetryOptions): void {
-  register({ projectName: options.projectName });
+export interface TelemetryHandle {
+  /** Flushes buffered spans immediately. Call before a short-lived process exits. */
+  forceFlush(): Promise<void>;
+  shutdown(): Promise<void>;
+}
+
+// Exposes only forceFlush/shutdown rather than the NodeTracerProvider itself,
+// so this package's public types stay free of @opentelemetry/sdk-trace-node.
+export function registerTelemetry(options: TelemetryOptions): TelemetryHandle {
+  const provider = register({ projectName: options.projectName });
+  return {
+    forceFlush: () => provider.forceFlush(),
+    shutdown: () => provider.shutdown(),
+  };
 }
