@@ -1,13 +1,11 @@
 import './instrumentation';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { startMcpServer } from './mcp/server';
 
-async function bootstrap() {
-  const app = await NestFactory.createApplicationContext(AppModule, {
-    logger: ['error', 'warn'], // stdout is reserved for the MCP protocol; nothing else may write to it
-  });
-  await startMcpServer(app);
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(AppModule);
+  const port = Number(process.env.MCP_PORT ?? 3300);
+  await app.listen(port);
 }
 
 bootstrap().catch((err) => {
