@@ -83,6 +83,11 @@ Auth0 slots in as the authorization server here. Budget days, not hours — and 
 - Axis B: intervals.icu OAuth, per-user token store, re-auth path
 - Deploy somewhere with a public URL.
 
+> Streamable HTTP transport itself shipped early (see
+> `docs/superpowers/specs/2026-09-19-mcp-streamable-http-and-agent-hexagonal-design.md`),
+> running inside the docker-compose network / localhost only. Axis A/B
+> auth and a public deployment remain open, as originally scoped here.
+
 Phases 1–3 already make a stronger portfolio piece than most Phase 4 projects that skip evals.
 
 ---
