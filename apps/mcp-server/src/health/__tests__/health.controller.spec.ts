@@ -1,14 +1,3 @@
-jest.mock('@nestjs/terminus', () => ({
-  HealthCheckService: jest.fn(),
-  HealthCheck: () => jest.fn(),
-  HealthCheckError: class HealthCheckError extends Error {
-    constructor(message: string, public response: unknown) {
-      super(message);
-      this.name = 'HealthCheckError';
-    }
-  },
-}));
-
 import { HealthController } from '../health.controller';
 
 type HealthCheckService = any;
