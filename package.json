@@ -8,7 +8,9 @@
     "build": "turbo build",
     "test": "turbo test",
     "lint": "eslint \"{apps,packages}/**/*.ts\" --fix",
-    "format": "prettier --write \"{apps,packages}/**/*.ts\""
+    "format": "prettier --write \"{apps,packages}/**/*.ts\"",
+    "docker:preprod": "docker compose -f docker-compose.yml --env-file .env.preprod up",
+    "docker:prod": "docker compose -f docker-compose.yml --env-file .env.production up"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
