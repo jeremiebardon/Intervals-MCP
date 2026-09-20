@@ -2,9 +2,15 @@ import './instrumentation';
 import { CommandFactory } from 'nest-commander';
 import { AppModule } from './app.module';
 import { telemetry } from './instrumentation';
+import { createServiceErrorHandler } from './cli/service-error-handler';
 
 async function bootstrap(): Promise<void> {
-  await CommandFactory.run(AppModule, { logger: ['error', 'warn'] });
+  await CommandFactory.run(AppModule, {
+    logger: ['error', 'warn'],
+    serviceErrorHandler: createServiceErrorHandler(() =>
+      telemetry.forceFlush(),
+    ),
+  });
 }
 
 bootstrap()
