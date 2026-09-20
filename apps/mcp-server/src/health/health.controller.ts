@@ -2,22 +2,15 @@ import { Controller, Get } from '@nestjs/common';
 import {
   HealthCheckService,
   HealthCheck,
-  HealthCheckError,
-  HealthIndicatorResult,
+  HealthIndicatorService,
 } from '@nestjs/terminus';
-
-function checkIntervalsConfig(): HealthIndicatorResult {
-  if (!process.env.INTERVALS_API_KEY) {
-    throw new HealthCheckError('INTERVALS_API_KEY is not set', {
-      config: { status: 'down' },
-    });
-  }
-  return { config: { status: 'up' } };
-}
 
 @Controller('health')
 export class HealthController {
-  constructor(private readonly health: HealthCheckService) {}
+  constructor(
+    private readonly health: HealthCheckService,
+    private readonly healthIndicatorService: HealthIndicatorService,
+  ) {}
 
   @Get('live')
   live(): { status: string } {
@@ -27,6 +20,13 @@ export class HealthController {
   @Get('ready')
   @HealthCheck()
   ready() {
-    return this.health.check([checkIntervalsConfig]);
+    return this.health.check([
+      () => {
+        const indicator = this.healthIndicatorService.check('config');
+        return process.env.INTERVALS_API_KEY
+          ? indicator.up()
+          : indicator.down('INTERVALS_API_KEY is not set');
+      },
+    ]);
   }
 }

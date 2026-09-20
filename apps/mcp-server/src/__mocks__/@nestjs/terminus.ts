@@ -20,31 +20,49 @@ class MockHealthCheckService {
   check = jest.fn(() => Promise.resolve({ status: 'ok' }));
 }
 
+class MockHealthIndicatorService {
+  check(key: string) {
+    return {
+      up: (data?: unknown) => {
+        const extra = typeof data === 'string' ? { message: data } : (data as Record<string, unknown>) || {};
+        return { [key]: { status: 'up', ...extra } };
+      },
+      down: (data?: unknown) => {
+        const extra = typeof data === 'string' ? { message: data } : (data as Record<string, unknown>) || {};
+        return { [key]: { status: 'down', ...extra } };
+      },
+      degraded: (data?: unknown) => {
+        const extra = typeof data === 'string' ? { message: data } : (data as Record<string, unknown>) || {};
+        return { [key]: { status: 'degraded', ...extra } };
+      },
+    };
+  }
+}
+
 const healthCheckServiceProvider: Provider = {
   provide: 'HealthCheckService',
   useClass: MockHealthCheckService,
 };
 
+const healthIndicatorServiceProvider: Provider = {
+  provide: 'HealthIndicatorService',
+  useClass: MockHealthIndicatorService,
+};
+
 @Module({
-  providers: [MockHealthCheckService, healthCheckServiceProvider],
-  exports: [MockHealthCheckService, 'HealthCheckService'],
+  providers: [MockHealthCheckService, MockHealthIndicatorService, healthCheckServiceProvider, healthIndicatorServiceProvider],
+  exports: [MockHealthCheckService, MockHealthIndicatorService, 'HealthCheckService', 'HealthIndicatorService'],
 })
 class TerminusModule {}
 
 export {
   HealthCheckService,
   HealthCheck,
-  HealthCheckError,
+  HealthIndicatorService,
   TerminusModule,
 };
 
 // Mock exports
 const HealthCheckService = MockHealthCheckService;
+const HealthIndicatorService = MockHealthIndicatorService;
 const HealthCheck = () => jest.fn();
-class HealthCheckErrorImpl extends Error {
-  constructor(message: string, public response: unknown) {
-    super(message);
-    this.name = 'HealthCheckError';
-  }
-}
-const HealthCheckError = HealthCheckErrorImpl;
