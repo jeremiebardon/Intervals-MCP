@@ -1,0 +1,23 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "preserve",
+    "target": "ES2023",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "declaration": false,
+    "sourceMap": false,
+    "incremental": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "types": ["jest", "node"]
+  }
+}

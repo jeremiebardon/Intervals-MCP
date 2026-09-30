@@ -1,0 +1,33 @@
+# Walks the onboarding flow, capturing each step.
+# Requires: pnpm --filter @intervals/web start:dev
+url: http://localhost:3000/onboarding/availability
+---
+- launchApp:
+    clearState: true
+
+- assertVisible: 'When can you train?'
+# Slot chips are selected by id: Maestro maps aria-label onto resource-id,
+# and their visible text ("Evening") repeats across all seven rows.
+- tapOn:
+    id: 'Mon Evening'
+- tapOn:
+    id: 'Wed Evening'
+- tapOn:
+    id: 'Sat Morning'
+- takeScreenshot: shots/onboarding-1-availability-${SHOT}
+
+- tapOn: 'Continue'
+- assertVisible: 'Choose your sports'
+- tapOn: 'Running'
+- takeScreenshot: shots/onboarding-2-sport-${SHOT}
+
+- tapOn: 'Continue'
+- assertVisible: 'Connect Intervals.icu'
+- takeScreenshot: shots/onboarding-3-intervals-${SHOT}
+
+# Invalid key path (Figma 04b).
+- tapOn: 'Intervals.icu API key'
+- inputText: 'not-a-key'
+- tapOn: 'Connect & finish'
+- assertVisible: "We couldn't verify this key. Check that you copied all of it."
+- takeScreenshot: shots/onboarding-3b-invalid-${SHOT}

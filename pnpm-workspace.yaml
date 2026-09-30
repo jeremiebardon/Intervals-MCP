@@ -5,9 +5,13 @@ packages:
 allowBuilds:
   '@parcel/watcher': true
   unrs-resolver: true
+  # tsx and the LangGraph CLI need esbuild's native binary.
+  esbuild: true
+  # msw's postinstall keeps public/mockServiceWorker.js in sync with the
+  # installed version; skipping it makes the worker silently go stale.
+  msw: true
 minimumReleaseAgeExclude:
   - '@arizeai/openinference-core@2.7.1'
-  - '@arizeai/openinference-instrumentation-mcp@0.2.33'
   - '@arizeai/openinference-semantic-conventions@2.12.0'
   - '@turbo/darwin-64@2.11.2'
   - '@turbo/darwin-arm64@2.11.2'

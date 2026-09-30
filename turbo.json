@@ -5,9 +5,17 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "typecheck": {
+      "outputs": []
+    },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []
+    },
+    "start:dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
     },
     "start": {
       "dependsOn": ["build"],

@@ -1,0 +1,126 @@
+import { getActivityDetail } from '../get-activity-detail';
+import { IntervalsClient } from '../../infrastructure/intervals/intervals.client';
+import { ActivityDetail } from '../../infrastructure/intervals/types';
+
+describe('getActivityDetail', () => {
+  it('delegates to the port and returns the detail', async () => {
+    const detail: ActivityDetail = {
+      id: 'i1',
+      date: '2026-09-01',
+      name: 'Ride',
+      sport: 'Ride',
+      description: null,
+      distanceMeters: 10000,
+      durationSeconds: 1800,
+      elapsedSeconds: 1800,
+      intervalSummary: [],
+      avgHeartRate: 140,
+      maxHeartRate: null,
+      avgPace: 100,
+      avgSpeedMetersPerSecond: null,
+      gapMetersPerSecond: null,
+      avgPowerWatts: null,
+      weightedAvgPowerWatts: null,
+      trainingLoad: 40,
+      intensity: null,
+      trimp: null,
+      ctl: null,
+      atl: null,
+      decoupling: null,
+      efficiencyFactor: null,
+      perceivedExertion: null,
+      icuRpe: null,
+      feel: null,
+      sessionRpe: null,
+      avgCadence: null,
+      elevationGainMeters: null,
+      elevationLossMeters: null,
+      calories: null,
+      intervals: [],
+      hrZoneDistribution: {
+        zone1Seconds: 0,
+        zone2Seconds: 0,
+        zone3Seconds: 0,
+        zone4Seconds: 0,
+        zone5Seconds: 0,
+      },
+    };
+    const getActivityDetailMock = jest.fn().mockResolvedValue(detail);
+    const port = {
+      getActivityDetail: getActivityDetailMock,
+    } as unknown as IntervalsClient;
+    const deps = { intervals: port, now: () => new Date() };
+
+    const result = await getActivityDetail(deps, { activityId: 'i1' });
+
+    expect(result).toEqual({
+      ...detail,
+      intervalsTruncated: false,
+      intervalsShown: 0,
+      intervalsTotal: 0,
+    });
+    expect(getActivityDetailMock).toHaveBeenCalledWith('i1');
+  });
+
+  it('truncates intervals beyond the max and reports the envelope fields', async () => {
+    const manyIntervals = Array.from({ length: 75 }, (_, i) => ({
+      label: `interval-${i}`,
+      durationSeconds: 60,
+      distanceMeters: null,
+      avgHeartRate: null,
+      avgPower: null,
+    }));
+    const detail: ActivityDetail = {
+      id: 'i1',
+      date: '2026-09-01',
+      name: 'Ride',
+      sport: 'Ride',
+      description: null,
+      distanceMeters: 10000,
+      durationSeconds: 1800,
+      elapsedSeconds: 1800,
+      intervalSummary: [],
+      avgHeartRate: 140,
+      maxHeartRate: null,
+      avgPace: 100,
+      avgSpeedMetersPerSecond: null,
+      gapMetersPerSecond: null,
+      avgPowerWatts: null,
+      weightedAvgPowerWatts: null,
+      trainingLoad: 40,
+      intensity: null,
+      trimp: null,
+      ctl: null,
+      atl: null,
+      decoupling: null,
+      efficiencyFactor: null,
+      perceivedExertion: null,
+      icuRpe: null,
+      feel: null,
+      sessionRpe: null,
+      avgCadence: null,
+      elevationGainMeters: null,
+      elevationLossMeters: null,
+      calories: null,
+      intervals: manyIntervals,
+      hrZoneDistribution: {
+        zone1Seconds: 0,
+        zone2Seconds: 0,
+        zone3Seconds: 0,
+        zone4Seconds: 0,
+        zone5Seconds: 0,
+      },
+    };
+    const port = {
+      getActivityDetail: jest.fn().mockResolvedValue(detail),
+    } as unknown as IntervalsClient;
+    const deps = { intervals: port, now: () => new Date() };
+
+    const result = await getActivityDetail(deps, { activityId: 'i1' });
+
+    expect(result.intervals).toHaveLength(50);
+    expect(result.intervalsTruncated).toBe(true);
+    expect(result.intervalsShown).toBe(50);
+    expect(result.intervalsTotal).toBe(75);
+  });
+});

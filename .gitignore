@@ -7,8 +7,14 @@ dist/
 .worktrees/
 .superpowers/
 coverage/
-apps/mcp-server/fixtures/recorded/
+apps/agents/fixtures/recorded/
+# LangGraph dev server's local state
+.langgraph_api/
 .turbo/
 
 # Added by px setup — local Phoenix credentials
 .env.phoenix
+
+prompts/
+
+*.env.*

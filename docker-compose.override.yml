@@ -1,18 +1,8 @@
 services:
-  mcp-server:
-    build:
-      target: dev
+  agents:
     environment:
       NODE_ENV: development
+    # nest start --watch recompiles and restarts on source changes.
+    command: ['pnpm', 'start:dev']
     volumes:
-      - ./apps/mcp-server/src:/repo/apps/mcp-server/src
-      - ./packages/instrumentation/src:/repo/packages/instrumentation/src
-
-  agent:
-    build:
-      target: dev
-    environment:
-      NODE_ENV: development
-    volumes:
-      - ./apps/agent/src:/repo/apps/agent/src
-      - ./packages/instrumentation/src:/repo/packages/instrumentation/src
+      - ./apps/agents/src:/repo/apps/agents/src

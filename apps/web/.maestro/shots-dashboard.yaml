@@ -1,0 +1,8 @@
+# Captures the dashboard in the current theme.
+# Requires: pnpm --filter @intervals/web start:dev
+url: http://localhost:3000/dashboard
+---
+- launchApp:
+    clearState: true
+- assertVisible: 'Good morning, Alex'
+- takeScreenshot: shots/dashboard-${SHOT}

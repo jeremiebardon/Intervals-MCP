@@ -1,0 +1,8 @@
+# Visual capture for the login screen. Run once per breakpoint via
+# --screen-size; the shot name is passed in with -e SHOT=<name>.
+url: http://localhost:3000/login
+---
+- launchApp:
+    clearState: true
+- assertVisible: 'Find your next gear.'
+- takeScreenshot: shots/${SHOT}

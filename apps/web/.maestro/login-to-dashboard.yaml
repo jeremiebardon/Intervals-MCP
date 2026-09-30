@@ -1,0 +1,47 @@
+# Happy path: sign in, complete all three onboarding steps, land on the
+# dashboard. Requires a dev server on :3000 (pnpm --filter @intervals/web
+# start:dev) so MSW is serving the mock API.
+#
+# Notes for anyone editing this flow:
+#  - Slot chips are addressed with `id:` — Maestro maps aria-label onto
+#    resource-id, and their visible text repeats across all seven rows.
+#  - Do not add `enabled: true` to a tapOn. Maestro's web hierarchy does not
+#    report an enabled attribute, so the selector never matches. Assert on
+#    the resulting screen instead.
+url: http://localhost:3000/login
+---
+- launchApp:
+    clearState: true
+
+- assertVisible: 'Find your next gear.'
+- tapOn: 'Email'
+- inputText: 'alex@stridevolt.test'
+- tapOn: 'Password'
+- inputText: 'correct-horse'
+- tapOn: 'Sign in'
+
+- assertVisible: 'When can you train?'
+- tapOn:
+    id: 'Mon Evening'
+- tapOn:
+    id: 'Wed Evening'
+- tapOn:
+    id: 'Sat Morning'
+- tapOn: 'Continue'
+
+- assertVisible: 'Choose your sports'
+- tapOn: 'Running'
+- tapOn: 'Continue'
+
+- assertVisible: 'Connect Intervals.icu'
+- tapOn: 'Intervals.icu API key'
+- inputText: 'k9x2000000000000f3a'
+- tapOn: 'Connect & finish'
+
+- assertVisible: "You’re ready to run."
+- assertVisible: '3 slots · 3 days'
+- assertVisible: 'Connected'
+- tapOn: 'Start training'
+
+- assertVisible: 'Good morning, Alex'
+- assertVisible: 'Progressive tempo'

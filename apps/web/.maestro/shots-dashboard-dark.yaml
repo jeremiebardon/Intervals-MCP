@@ -1,0 +1,10 @@
+# Captures the dashboard after switching to dark mode.
+# Requires: pnpm --filter @intervals/web start:dev
+url: http://localhost:3000/dashboard
+---
+- launchApp:
+    clearState: true
+- assertVisible: 'Good morning, Alex'
+- tapOn: 'Switch to dark mode'
+- assertVisible: 'Switch to light mode'
+- takeScreenshot: shots/dashboard-dark

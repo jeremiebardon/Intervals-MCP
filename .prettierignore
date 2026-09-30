@@ -1,0 +1,6 @@
+**/dist/**
+**/coverage/**
+**/.next/**
+apps/web/public/mockServiceWorker.js
+apps/web/next-env.d.ts
+pnpm-lock.yaml

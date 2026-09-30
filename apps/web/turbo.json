@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["NEXT_PUBLIC_*"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "env": ["NEXT_PUBLIC_*"]
+    },
+    "test:e2e": {
+      "dependsOn": [],
+      "cache": false
+    }
+  }
+}
