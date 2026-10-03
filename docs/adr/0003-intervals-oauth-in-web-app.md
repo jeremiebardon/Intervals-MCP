@@ -1,0 +1,3 @@
+# The Intervals.icu OAuth flow lives in the web app, not the agents server
+
+The authorize redirect and callback are Next.js route handlers in `apps/web` (`/api/intervals/authorize`, `/api/intervals/callback`). They run on the same domain as the Supabase session cookie, so the callback knows which Athlete is connecting without passing identities or tokens between services. `apps/agents` was the other candidate, since it is the service that will eventually call Intervals.icu for each Athlete. It was rejected because it would need its own session handling for a browser flow. Instead, `apps/agents` will read and decrypt the stored token (see ADR 0002) when it becomes per-athlete.
