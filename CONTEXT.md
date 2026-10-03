@@ -29,7 +29,7 @@ _Avoid_: Verification link, confirmation email
 ### Getting started
 
 **Onboarding**:
-The required steps an Athlete completes once, after choosing a password and before reaching the dashboard: Availability, Sports, then Intervals connection.
+The steps an Athlete goes through once, after choosing a password and before reaching the dashboard: Availability and Sports are required, and the Intervals connection can be skipped.
 _Avoid_: Setup, wizard
 
 **Availability**:
@@ -37,7 +37,7 @@ The weekly days and time slots an Athlete can commit to training.
 _Avoid_: Schedule, calendar
 
 **Intervals connection**:
-An Athlete's authorization for StrideVolt to act on their Intervals.icu account. An Intervals.icu account can belong to at most one Athlete.
+An Athlete's authorization for StrideVolt to act on their Intervals.icu account. It is optional: an Athlete can use StrideVolt without one and connect later. An Intervals.icu account can belong to at most one Athlete.
 _Avoid_: Sync, integration, API key
 
 **Intervals.icu athlete**:
